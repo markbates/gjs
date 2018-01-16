@@ -14,16 +14,16 @@ var entries = {
 }
 
 glob.sync("./assets/*/*.*").reduce((_, entry) => {
-  let key = entry.replace(/(\.\/assets\/(js|css)\/)|(.js|.scss)/g, '')
-  if(key.startsWith("_") || (/(js|scss)$/i).test(entry) == false) {
+  let key = entry.replace(/(\.\/assets\/(js|css|go)\/)|(.js|.scss|.go)/g, '')
+  if(key.startsWith("_") || (/(js|scss|go)$/i).test(entry) == false) {
     return
   }
-  
+
   if( entries[key] == null) {
     entries[key] = [entry]
     return
-  } 
-  
+  }
+
   entries[key].push(entry)
 })
 
@@ -110,6 +110,10 @@ module.exports = {
       {
         test: require.resolve("jquery"),
         use: "expose-loader?jQuery!expose-loader?$"
+      },
+      {
+        test: /\.go$/,
+        use: "gopherjs-loader"
       }
     ]
   }
